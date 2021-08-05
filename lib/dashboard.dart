@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:simple_login_page/Models/cases_model.dart';
 import 'package:simple_login_page/detail_screen.dart';
 import 'package:simple_login_page/login_page.dart';
@@ -15,7 +18,7 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
 
-    _futureObject = getCases('0.0.0.0:4000/cases');
+    _futureObject = fetchObjects();
   }
 
   @override
@@ -91,5 +94,49 @@ Future<List<Cases>> getCases(String URL) async {
     final result = await Dio().get(URL);
     print(result.toString());
     return (result.data as List).map((json) => Cases.fromJson(json)).toList();
-  } catch (e, stacktrace) {}
+  } catch (e, stacktrace) {
+    print('error' + stacktrace.toString());
+  }
+}
+
+Future<List<Cases>> fetchObjects() async {
+  print('In the FUTURE1111111111');
+  List<Cases> objj;
+  final response = await http.post(
+    Uri.https('localhost:4000', 'cases'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json; charset=UTF-8',
+    },
+  );
+  print('len =' + response.contentLength.toString());
+  if (response.statusCode == 200) {
+    // If the server did return a 200 response,
+    // then parse the JSON.
+    print("INSIDE HERE");
+    print("RESPONSE");
+    //debugPrint("" + response.body);
+
+    for (int i = 0; i < jsonDecode(response.body)['result'].length; i++) {
+      var up = 0, down = 0;
+      var jsonfile = jsonDecode(response.body)['result'][i];
+      print("JSON " + jsonfile);
+      if (jsonDecode(response.body)['result'][i] != null) {
+        Cases temp = Cases.fromJson(jsonfile);
+        objj.add(temp);
+      }
+      //print("" + jsonfile.toString());
+
+    }
+
+    for (int i = 0; i < jsonDecode(response.body)['result'].length; i++) {
+      print("parse +" + i.toString());
+      print(objj.toString());
+    }
+    return objj;
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to create objects.');
+  }
 }
