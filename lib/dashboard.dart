@@ -102,13 +102,7 @@ Future<List<Cases>> getCases(String URL) async {
 Future<List<Cases>> fetchObjects() async {
   print('In the FUTURE1111111111');
   List<Cases> objj;
-  final response = await http.post(
-    Uri.https('localhost:4000', 'cases'),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json; charset=UTF-8',
-    },
-  );
+  final response = await http.get(Uri.https('0.0.0.0:4000/cases', 'cases'));
   print('len =' + response.contentLength.toString());
   if (response.statusCode == 200) {
     // If the server did return a 200 response,
