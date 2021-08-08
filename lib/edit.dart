@@ -25,12 +25,12 @@ var resultVar = TextEditingController();
 var caseNum = TextEditingController();
 var partyName = TextEditingController();
 
-class AddCase extends StatefulWidget {
+class EditCase extends StatefulWidget {
   @override
-  _AddCaseState createState() => _AddCaseState();
+  _EditCaseState createState() => _EditCaseState();
 }
 
-class _AddCaseState extends State<AddCase> {
+class _EditCaseState extends State<EditCase> {
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -38,7 +38,7 @@ class _AddCaseState extends State<AddCase> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add cases'),
+        title: Text('Edit cases'),
       ),
       resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
@@ -224,23 +224,23 @@ class _AddCaseState extends State<AddCase> {
                 },
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(10),
-            //   child: TextFormField(
-            //       controller: resultVar,
-            //       decoration: const InputDecoration(
-            //         border: OutlineInputBorder(),
-            //         hintText: 'Enter Result',
-            //         labelText: 'Result',
-            //         helperText: 'Please enter Result of the case',
-            //       ),
-            //       validator: (reason) {
-            //         if (reason.isEmpty) {
-            //           return 'Result cannot be empty';
-            //         }
-            //         return null;
-            //       }),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextFormField(
+                  controller: resultVar,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter Result',
+                    labelText: 'Result',
+                    helperText: 'Please enter Result of the case',
+                  ),
+                  validator: (reason) {
+                    if (reason.isEmpty) {
+                      return 'Result cannot be empty';
+                    }
+                    return null;
+                  }),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 100, right: 100, bottom: 10),
               child: Align(
